@@ -187,6 +187,10 @@ const defaultZiggy = {
                 extension: '\\.(php|html)',
             },
         },
+        statistics: {
+            uri: 'статистика',
+            methods: ['GET', 'HEAD'],
+        },
         pages: {
             uri: '{page}',
             methods: ['GET', 'HEAD'],
@@ -1081,6 +1085,20 @@ describe('current()', () => {
         assert(!route().current('events.venues.show', { user: 'Matt', venue: { id: 9 } }));
         assert(!route().current('events.venues.show', { event: 5, id: 9, user: 'Jacob' }));
         assert(!route().current('events.venues.show', { id: 12, user: 'Matt' }));
+    });
+
+    test('can check the current route with Cyrillic characters', () => {
+        global.window.location.pathname = '/статистика';
+
+        same(route().current(), 'statistics');
+        assert(route().current('statistics'));
+    });
+
+    test('can check the current route with encoded Cyrillic characters', () => {
+        global.window.location.pathname = '/%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0';
+
+        same(route().current(), 'statistics');
+        assert(route().current('statistics'));
     });
 
     test('can ignore routes that don’t allow GET requests', () => {
