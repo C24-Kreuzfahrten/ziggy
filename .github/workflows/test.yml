@@ -59,9 +59,6 @@ jobs:
           - php: '8.2'
             laravel: 7.*
     steps:
-      - if: ${{ matrix.os[0] == 'Windows' }}
-        run: |
-          git config --global core.autocrlf false
       - uses: actions/checkout@v3
       - uses: shivammathur/setup-php@v2
         with:
